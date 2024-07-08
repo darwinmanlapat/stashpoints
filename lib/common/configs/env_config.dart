@@ -10,5 +10,5 @@ class EnvConfig {
     }
   }
 
-  static String get environment => dotenv.env['REST_ENDPOINT']!;
+  static String get restEndpoint => dotenv.env['REST_ENDPOINT']!;
 }
