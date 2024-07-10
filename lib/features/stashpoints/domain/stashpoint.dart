@@ -5,6 +5,35 @@ import 'package:stashpoints/features/stashpoints/domain/stashpoint_operating_hou
 import 'package:stashpoints/features/stashpoints/domain/stashpoint_operating_hours_exception.dart';
 import 'package:stashpoints/features/stashpoints/domain/stashpoint_pricing.dart';
 
+/// Represents a stashpoint location with details such as its operational hours,
+/// pricing, location coordinates, ratings, and photos.
+///
+/// This class is used to model stashpoints fetched from JSON data and provides
+/// methods to serialize to and deserialize from JSON.
+///
+/// Properties:
+/// - [isOpenLate]: Indicates if the stashpoint is open late.
+/// - [rating]: The rating of the stashpoint.
+/// - [ratingCount]: The number of ratings received.
+/// - [type]: The type of stashpoint.
+/// - [locationName]: The name of the stashpoint location.
+/// - [timezone]: The timezone of the stashpoint.
+/// - [latitude]: The latitude coordinate of the stashpoint.
+/// - [longitude]: The longitude coordinate of the stashpoint.
+/// - [pricing]: The pricing structure of the stashpoint.
+/// - [photos]: List of photo URLs associated with the stashpoint.
+/// - [operatingHoursExceptions]: List of exceptions to regular operating hours.
+/// - [operatingHours]: List of regular operating hours for the stashpoint.
+///
+/// Methods:
+/// - [Stashpoint.fromJson]: Factory method to create a [Stashpoint] instance from JSON data.
+///
+/// Equality:
+/// - The equality of two [Stashpoint] instances is based on all properties being equal.
+///
+/// String Conversion:
+/// - [stringify] is set to true to enable readable string conversion of [Stashpoint] instances.
+
 class Stashpoint extends Equatable {
   final bool isOpenLate;
   final double rating;

@@ -1,6 +1,26 @@
 import 'package:equatable/equatable.dart';
 
-/// Represents an exception to the regular operating hours, such as a holiday.
+/// Represents an exception to the regular operating hours of a Stashpoint, such as a holiday or special closure.
+///
+/// This class models an exception to the stashpoint's regular operating hours, including details such as
+/// the name of the exception, start and end times, date, and type (e.g., "closed").
+///
+/// Properties:
+/// - [name]: The name of the exception (e.g., "Holiday").
+/// - [startTime]: The start time of the exception formatted as a string (e.g., "00:00:00").
+/// - [date]: The date of the exception formatted as a string (e.g., "2024-07-16").
+/// - [endTime]: The end time of the exception formatted as a string (e.g., "00:00:00").
+/// - [type]: The type of the exception (e.g., "closed").
+///
+/// Methods:
+/// - [StashpointOperatingHoursException.fromJson]: Factory method to create a [StashpointOperatingHoursException] instance from JSON data.
+///
+/// Equality:
+/// - The equality of two [StashpointOperatingHoursException] instances is based on all properties being equal.
+///
+/// String Conversion:
+/// - [stringify] is set to true to enable readable string conversion of [StashpointOperatingHoursException] instances.
+
 class StashpointOperatingHoursException extends Equatable {
   final String name;
   final String startTime;
@@ -8,14 +28,6 @@ class StashpointOperatingHoursException extends Equatable {
   final String endTime;
   final String type;
 
-  /// Constructs an instance of [StashpointOperatingHoursException].
-  ///
-  /// Parameters:
-  /// - [name]: The name of the exception (e.g., "Holiday").
-  /// - [startTime]: The start time of the exception (e.g., "00:00:00").
-  /// - [date]: The date of the exception (e.g., "2024-07-16").
-  /// - [endTime]: The end time of the exception (e.g., "00:00:00").
-  /// - [type]: The type of the exception (e.g., "closed").
   const StashpointOperatingHoursException({
     required this.name,
     required this.startTime,
@@ -24,13 +36,6 @@ class StashpointOperatingHoursException extends Equatable {
     required this.type,
   });
 
-  /// Creates an instance of [StashpointOperatingHoursException] from a JSON map.
-  ///
-  /// Parameters:
-  /// - [map]: The JSON map containing the data.
-  ///
-  /// Returns:
-  /// - An instance of [StashpointOperatingHoursException].
   factory StashpointOperatingHoursException.fromJson(Map<String, dynamic> map) {
     return StashpointOperatingHoursException(
       name: map['name'] as String? ?? '',

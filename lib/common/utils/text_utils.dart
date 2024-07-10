@@ -1,5 +1,5 @@
 class TextUtils {
-  // Capitalize the first letter of each word in a string
+  /// Capitalize the first letter of each word in a string
   static String capitalizeEachWord(String text, {String delimiter = ' '}) {
     if (text.isEmpty) {
       return text;
@@ -10,7 +10,7 @@ class TextUtils {
     }).join(' ');
   }
 
-  // Capitalize only the first letter of a string
+  /// Capitalize only the first letter of a string
   static String capitalizeFirstLetter(String text) {
     if (text.isEmpty) {
       return text;

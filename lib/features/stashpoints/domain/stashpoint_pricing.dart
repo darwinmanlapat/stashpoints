@@ -1,7 +1,29 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:equatable/equatable.dart';
 
 /// Represents the pricing details for a Stashpoint, including various fees and costs associated with the service.
+///
+/// This class provides a structured representation of pricing information, including currency details,
+/// costs for the first day and extra days, booking fees, guarantee fees, and currency conversion details.
+///
+/// Properties:
+/// - [currency]: The currency code (e.g., "USD", "EUR").
+/// - [currencySymbol]: The symbol of the currency (e.g., "$", "€").
+/// - [firstDayCost]: The cost for the first day.
+/// - [extraDayCost]: The cost for each additional day.
+/// - [bookingFee]: The fee for booking.
+/// - [guaranteeFee]: The guarantee fee.
+/// - [currencyMinorInMajor]: The minor currency units in a major currency unit (e.g., 100 for cents in a dollar).
+///
+/// Methods:
+/// - [StashpointPricing.fromJson]: Factory method to create a [StashpointPricing] instance from JSON data.
+/// - [copyWith]: Method to create a copy of the [StashpointPricing] instance with optional new values.
+///
+/// Equality:
+/// - The equality of two [StashpointPricing] instances is based on all properties being equal.
+///
+/// String Conversion:
+/// - [stringify] is set to true to enable readable string conversion of [StashpointPricing] instances.
+
 class StashpointPricing extends Equatable {
   final String currency;
   final String currencySymbol;
@@ -11,16 +33,6 @@ class StashpointPricing extends Equatable {
   final num guaranteeFee;
   final num currencyMinorInMajor;
 
-  /// Constructs an instance of [StashpointPricing].
-  ///
-  /// Parameters:
-  /// - [currency]: The currency code (e.g., "USD", "EUR").
-  /// - [currencySymbol]: The symbol of the currency (e.g., "$", "€").
-  /// - [firstDayCost]: The cost for the first day.
-  /// - [extraDayCost]: The cost for each additional day.
-  /// - [bookingFee]: The fee for booking.
-  /// - [guaranteeFee]: The guarantee fee.
-  /// - [currencyMinorInMajor]: The minor currency units in a major currency unit (e.g., 100 for cents in a dollar).
   const StashpointPricing({
     required this.currency,
     required this.currencySymbol,
@@ -31,13 +43,6 @@ class StashpointPricing extends Equatable {
     required this.currencyMinorInMajor,
   });
 
-  /// Creates an instance of [StashpointPricing] from a JSON map.
-  ///
-  /// Parameters:
-  /// - [map]: The JSON map containing the data.
-  ///
-  /// Returns:
-  /// - An instance of [StashpointPricing].
   factory StashpointPricing.fromJson(Map<String, dynamic> map) {
     return StashpointPricing(
       currency: map['ccy'] as String? ?? 'EUR',

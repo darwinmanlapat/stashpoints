@@ -1,16 +1,71 @@
-# stashpoints
+# **STASHPOINTS**
 
-A new Flutter project.
+## **Dependency Versions**
 
-## Getting Started
+| **Dependency** | **Version** |
+| -------------- | ----------- |
+| Flutter        | 3.22.2      |
+| Dart           | 3.4.3       |
+| Xcode          | 15.3        |
+| Android Studio | 2022.2.1    |
 
-This project is a starting point for a Flutter application.
+## **Packages**
 
-A few resources to get you started if this is your first Flutter project:
+**State Management:**
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+- Provider: ^6.1.2
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+**Networking:**
+
+- http: ^1.2.1
+
+**Localization:**
+
+- intl: ^0.19.0
+
+**UI Components:**
+
+- flutter_svg: ^2.0.10+1
+- shimmer: ^3.0.0
+
+**Utilities:**
+
+- flutter_dotenv: ^5.1.0
+- equatable: ^2.0.5
+- path_provider: ^2.1.3
+
+## **Setting Up Development Environment**
+
+### Prerequisites
+
+- Install [Flutter](https://docs.flutter.dev/get-started/install) either manually or using [FVM](https://fvm.app/docs/getting_started/installation).
+- Install [Android Studio](https://developer.android.com/studio/install) and [Xcode](https://apps.apple.com/us/app/xcode/id497799835).
+
+### Getting Started
+
+1. Clone the project from [GitHub](https://github.com/darwinmanlapat/digital_stamp_quiz.git).
+2. Navigate to the project directory.
+3. Run `flutter run` to start the application. If using Visual Studio Code, select the appropriate [launch configuration](https://code.visualstudio.com/docs/editor/debugging#_launch-configurations).
+
+## **Folder Structure**
+
+```bash
+.
+├── assets
+│   ├── fonts               # Application Fonts
+│   ├── ...                 # Images, SVG's, etc.
+└── lib
+    ├── common              # Common utilities, configurations, etc. shared across the app
+    │   ├── configs         # Configuration files
+    │   ├── exceptions      # Exception handling
+    │   ├── interfaces      # Interfaces and services
+    │   ├── services        # Utility services
+    │   └── utils           # Utility functions and constants
+    ├── feature
+    │   ├── <feature/module>
+    │   │   ├── data         # Data layer (Repositories)
+    │   │   ├── domain       # Domain Layer (Entities)
+    │   │   └── presentation # Presentation Layer (Screens, Widgets, Providers/Controllers)
+    │   ├── <feature/module>
+    │   └── ...
+```

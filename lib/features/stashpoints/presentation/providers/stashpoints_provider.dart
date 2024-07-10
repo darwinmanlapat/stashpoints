@@ -35,6 +35,7 @@ class StashpointsNotifier with ChangeNotifier {
 
   bool get hasNext => _hasNext;
 
+  /// Fetches stashpoints from the repository.
   Future<void> fetchItems() async {
     _isLoading = true;
     _hasError = false;
@@ -61,6 +62,7 @@ class StashpointsNotifier with ChangeNotifier {
     }
   }
 
+  /// Moves to the next page of stashpoints if available.
   void nextPage() {
     if (hasNext) {
       _currentPage++;
@@ -68,16 +70,17 @@ class StashpointsNotifier with ChangeNotifier {
     }
   }
 
+  /// Refreshes the list of stashpoints.
   Future<void> onRefresh() async {
     _items = [];
     fetchItems();
   }
 
+  /// Calculates the rate per day based on pricing and number of days.
   double calculateRatePerDay(StashpointPricing pricing, {int days = 1}) {
     if (days <= 0) {
       return 0.0;
     }
-
     // Convert costs from minor units to major units
     final firstDayCost = pricing.firstDayCost / pricing.currencyMinorInMajor;
     final extraDayCost = pricing.extraDayCost / pricing.currencyMinorInMajor;
@@ -96,66 +99,93 @@ class StashpointsNotifier with ChangeNotifier {
     return ratePerDay;
   }
 
+  /// Checks if the store is currently open.
   bool checkStoreAvailability(
     String timezone,
     List<StashpointOperatingHours> operatingHours,
   ) {
-    if (operatingHours.isEmpty) {
-      return false;
-    } else {
-      // Get current date and time now
-      final DateTime now = DateTime.now()
-          .toUtc()
-          .add(Duration(hours: _getTimezoneOffset(timezone)));
+    if (operatingHours.isEmpty) return false;
 
-      // Get the current day of the week (0 for Monday, 6 for Sunday)
-      final int currentDayOfWeek = now.weekday;
+    final DateTime now = _getCurrentTimeInTimezone(timezone);
+    final int currentDayOfWeek = now.weekday;
+    final String currentTime = DateFormat('HH:mm:ss').format(now);
 
-      // Get the current time as a formatted string "HH:mm:ss"
-      final String currentTime = DateFormat('HH:mm:ss').format(now);
+    final todayOpeningHours = operatingHours.firstWhere(
+      (hours) => hours.day == currentDayOfWeek,
+      orElse: () => const StashpointOperatingHours(
+        open: '00:00:00',
+        close: '00:00:00',
+        day: -1,
+      ),
+    );
 
-      // Find today's opening hours
-      final todayOpeningHours = operatingHours.firstWhere(
-        (hours) => hours.day == currentDayOfWeek,
-      );
-
-      // Check if current time is within opening hours
-      if (currentTime.compareTo(todayOpeningHours.open) >= 0 &&
-          currentTime.compareTo(todayOpeningHours.close) < 0) {
-        return true;
-      }
-    }
-
-    return false;
+    return currentTime.compareTo(todayOpeningHours.open) >= 0 &&
+        currentTime.compareTo(todayOpeningHours.close) < 0;
   }
 
-  int _getTimezoneOffset(String timezone) {
-    DateTime now = DateTime.now();
-    Duration offset = DateTime.parse(now.toString()).timeZoneOffset;
-    return offset.inHours;
-  }
-
+  /// Retrieves today's operating hours formatted as a string.
   String getTodayOperatingHours(
     String timezone,
     List<StashpointOperatingHours> operatingHours,
   ) {
-    if (operatingHours.isEmpty) {
-      return '';
-    }
+    if (operatingHours.isEmpty) return '';
 
-    // Get current date and time now
-    final DateTime now = DateTime.now()
-        .toUtc()
-        .add(Duration(hours: _getTimezoneOffset(timezone)));
-
-    // Get the current day of the week (0 for Monday, 6 for Sunday)
+    final DateTime now = _getCurrentTimeInTimezone(timezone);
     final int currentDayOfWeek = now.weekday;
 
-    // Find today's opening hours
     final todayOpeningHours = operatingHours.firstWhere(
       (hours) => hours.day == currentDayOfWeek,
+      orElse: () => const StashpointOperatingHours(
+        open: '00:00:00',
+        close: '00:00:00',
+        day: -1,
+      ),
     );
 
     return '${DateTimeUtils.formatTime(todayOpeningHours.open)} - ${DateTimeUtils.formatTime(todayOpeningHours.close)}';
+  }
+
+  /// Converts the current UTC time to the specified timezone.
+  DateTime _getCurrentTimeInTimezone(String timezone) {
+    final DateTime now = DateTime.now().toUtc();
+    final int offsetHours = _getTimezoneOffset(timezone);
+    return now.add(Duration(hours: offsetHours));
+  }
+
+  /// Retrieves the timezone offset in hours.
+  int _getTimezoneOffset(String timezone) {
+    final DateTime now = DateTime.now();
+    final Duration offset = DateTime.parse(now.toString()).timeZoneOffset;
+    return offset.inHours;
+  }
+
+  // Function to calculate the distance between two points using Haversine formula
+  double calculateDistance(double stashpointLat, double stashpointLng) {
+    // Assume that the location of the user
+    const double userLat = 51.5074; // London coordinates
+    const double userLng = -0.1278;
+
+    const R = 6371; // Radius of the Earth in km
+    var dLat = _degToRad(userLat - stashpointLat);
+    var dLon = _degToRad(userLng - stashpointLng);
+    var a = sin(dLat / 2) * sin(dLat / 2) +
+        cos(_degToRad(stashpointLat)) *
+            cos(_degToRad(userLat)) *
+            sin(dLon / 2) *
+            sin(dLon / 2);
+    var c = 2 * atan2(sqrt(a), sqrt(1 - a));
+    var distance = R * c; // Distance in km
+    return distance;
+  }
+
+  // Helper function to convert degrees to radians
+  double _degToRad(double deg) {
+    return deg * (pi / 180);
+  }
+
+  // Helper function to calculate travel time in minutes
+  double calculateTravelTime(double distance, double speed) {
+    // speed should be in km/h
+    return (distance / speed) * 60;
   }
 }
