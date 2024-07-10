@@ -46,7 +46,8 @@
 1. Clone the project from [GitHub](https://github.com/darwinmanlapat/stashpoints.git).
 2. Navigate to the project directory.
 3. Create `.env` file and copy these [Environment Variables](https://docs.google.com/document/d/1LqW43Y5xLz5xWtfANveMOwpz1OS49DVMmiIKJpXivjk/edit?usp=sharing)
-4. Run `flutter run` to start the application. If using Visual Studio Code, select the appropriate [launch configuration](https://code.visualstudio.com/docs/editor/debugging#_launch-configurations).
+4. Run `fvm use` to use the configured Flutter SDK version
+5. Run `flutter run` to start the application. If using Visual Studio Code, select the appropriate [launch configuration](https://code.visualstudio.com/docs/editor/debugging#_launch-configurations).
 
 ## **Folder Structure**
 
