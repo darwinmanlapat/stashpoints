@@ -1,14 +1,15 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:equatable/equatable.dart';
 
 /// Represents the pricing details for a Stashpoint, including various fees and costs associated with the service.
 class StashpointPricing extends Equatable {
   final String currency;
   final String currencySymbol;
-  final int firstDayCost;
-  final int extraDayCost;
-  final int bookingFee;
-  final int guaranteeFee;
-  final int currencyMinorInMajor;
+  final num firstDayCost;
+  final num extraDayCost;
+  final num bookingFee;
+  final num guaranteeFee;
+  final num currencyMinorInMajor;
 
   /// Constructs an instance of [StashpointPricing].
   ///
@@ -41,11 +42,11 @@ class StashpointPricing extends Equatable {
     return StashpointPricing(
       currency: map['ccy'] as String? ?? 'EUR',
       currencySymbol: map['ccy_symbol'] as String? ?? '€',
-      firstDayCost: map['first_day_cost'] as int? ?? 0,
-      extraDayCost: map['extra_day_cost'] as int? ?? 0,
-      bookingFee: map['booking_fee'] as int? ?? 0,
-      guaranteeFee: map['guarantee_fee'] as int? ?? 0,
-      currencyMinorInMajor: map['ccy_minor_in_major'] as int? ?? 0,
+      firstDayCost: map['first_day_cost'] as num? ?? 0.0,
+      extraDayCost: map['extra_day_cost'] as num? ?? 0.0,
+      bookingFee: map['booking_fee'] as num? ?? 0.0,
+      guaranteeFee: map['guarantee_fee'] as num? ?? 0.0,
+      currencyMinorInMajor: map['ccy_minor_in_major'] as num? ?? 0.0,
     );
   }
 
@@ -62,4 +63,24 @@ class StashpointPricing extends Equatable {
 
   @override
   bool get stringify => true;
+
+  StashpointPricing copyWith({
+    String? currency,
+    String? currencySymbol,
+    num? firstDayCost,
+    num? extraDayCost,
+    num? bookingFee,
+    num? guaranteeFee,
+    num? currencyMinorInMajor,
+  }) {
+    return StashpointPricing(
+      currency: currency ?? this.currency,
+      currencySymbol: currencySymbol ?? this.currencySymbol,
+      firstDayCost: firstDayCost ?? this.firstDayCost,
+      extraDayCost: extraDayCost ?? this.extraDayCost,
+      bookingFee: bookingFee ?? this.bookingFee,
+      guaranteeFee: guaranteeFee ?? this.guaranteeFee,
+      currencyMinorInMajor: currencyMinorInMajor ?? this.currencyMinorInMajor,
+    );
+  }
 }

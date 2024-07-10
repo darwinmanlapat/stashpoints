@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:stashpoints/common/exceptions/resource_not_found_exception.dart';
 import 'package:stashpoints/common/interfaces/http_client.dart';
 import 'package:http/http.dart' as http;
 
@@ -17,11 +18,13 @@ class HttpService implements HttpClient {
 
       if (response.statusCode == 200) {
         return jsonDecode(response.body);
+      } else if (response.statusCode == 404) {
+        throw ResourceNotFoundException();
       } else {
         throw HttpException('Failed to load data: ${response.statusCode}');
       }
     } catch (e) {
-      throw HttpException('Failed to load data: $e');
+      throw Exception('An unexpected error occurred: $e');
     }
   }
 
@@ -43,7 +46,7 @@ class HttpService implements HttpClient {
         throw HttpException('Failed to create data: ${response.statusCode}');
       }
     } catch (e) {
-      throw HttpException('Failed to create data: $e');
+      throw Exception('An unexpected error occurred: $e');
     }
   }
 }
